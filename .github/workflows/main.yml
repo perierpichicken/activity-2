@@ -12,4 +12,7 @@ jobs:
       #Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
+    #Step 2: Update the index.html
+      - name: Update index.html
+        run: sed -i '/<\/body>/i <p>Updated by Tea Leader on '"$(date)"'<p>' index.html
