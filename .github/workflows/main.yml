@@ -15,4 +15,23 @@ jobs:
 
     #Step 2: Update the index.html
       - name: Update index.html
-        run: sed -i '/<\/body>/i <p>Updated by Tea Leader on '"$(date)"'<p>' index.html
+        run: |
+          sed -i '/<\/body>/i <p>Updated by Tea Leader on '"$(date)"'<p>' index.html
+
+    #Step 3: Update README.md log
+      - name: Update README.md
+        run: |
+          echo "### Updated by ${{github.actor}} on $(date '+%Y-%m-%d %H:%M:%S') [Commit: $(git rev-parse --short HEAD)]" >> README.md
+# Step 4: Commit Changes to index.html and README
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Workflow: Updated HTML and README for #{{github.actor}}" || echo "No changes to commit"
+          git remote set-url origin https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+          
