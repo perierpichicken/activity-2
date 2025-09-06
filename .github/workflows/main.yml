@@ -1,1 +1,6 @@
-name: Test Workflow
+name: Update Index Page
+
+on:
+  push:
+    branches: 
+      - main
